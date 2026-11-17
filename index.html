@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>@tony_hybrid_ — Hyrox 40+</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --orange: #FF5C00;
+    --white: #F5F0E8;
+    --white60: rgba(245,240,232,0.6);
+    --white30: rgba(245,240,232,0.3);
+    --card-bg: rgba(245,240,232,0.04);
+    --card-border: rgba(255,92,0,0.18);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { background: var(--black); min-height:100%; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    text-align: center;
+    padding: 52px 24px 36px;
+    overflow: hidden;
+  }
+  .hero::before {
+    content:'';
+    position:absolute; inset:0;
+    background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(255,92,0,0.14) 0%, transparent 70%);
+    pointer-events:none;
+  }
+  .avatar-wrap {
+    display: inline-flex;
+    position: relative;
+    margin-bottom: 16px;
+  }
+  .avatar {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    border: 2.5px solid var(--orange);
+    background: #1a1a1a;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Arial Black', Arial, sans-serif;
+    font-size: 28px; font-weight: 900;
+    color: var(--orange);
+    letter-spacing: -1px;
+  }
+  .avatar-dot {
+    position:absolute; bottom:3px; right:3px;
+    width:14px; height:14px;
+    border-radius:50%;
+    background: var(--orange);
+    border: 2px solid var(--black);
+  }
+  .handle {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px; font-weight: 600;
+    color: var(--orange);
+    letter-spacing: .08em;
+    margin-bottom: 6px;
+  }
+  .name {
+    font-family: 'Arial Black', Arial, sans-serif;
+    font-size: 22px; font-weight: 900;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: .02em;
+    margin-bottom: 10px;
+  }
+  .bio {
+    font-size: 13.5px;
+    color: var(--white60);
+    line-height: 1.55;
+    max-width: 300px;
+    margin: 0 auto 20px;
+  }
+  .bio strong { color: var(--white); font-weight: 700; }
+  .stats-row {
+    display: flex; justify-content: center; gap: 28px;
+    margin-bottom: 0;
+  }
+  .stat { text-align: center; }
+  .stat-n {
+    font-family: 'Arial Black', Arial, sans-serif;
+    font-size: 17px; font-weight: 900;
+    color: var(--orange);
+  }
+  .stat-l {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; color: var(--white30);
+    letter-spacing: .1em; text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    width: 100%; height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255,92,0,0.3), transparent);
+    margin: 28px 0 0;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    padding: 28px 20px 0;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    color: var(--orange);
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::after {
+    content:'';
+    flex:1; height:1px;
+    background: rgba(255,92,0,0.2);
+  }
+
+  /* ── CARD ── */
+  .card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: inherit;
+    transition: background .2s, border-color .2s, transform .15s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card:hover {
+    background: rgba(255,92,0,0.07);
+    border-color: rgba(255,92,0,0.5);
+    transform: translateY(-1px);
+  }
+  .card::before {
+    content:'';
+    position:absolute; left:0; top:0; bottom:0;
+    width:3px;
+    background: var(--orange);
+    border-radius:3px 0 0 3px;
+  }
+  .card.locked {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: default;
+  }
+  .card.locked::before { background: rgba(245,240,232,0.2); }
+
+  .card-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; font-weight: 600;
+    color: var(--orange);
+    letter-spacing: .08em;
+    min-width: 32px;
+    text-align: center;
+  }
+  .card.locked .card-num { color: var(--white30); }
+
+  .card-body { flex: 1; }
+  .card-title {
+    font-family: 'Arial Black', Arial, sans-serif;
+    font-size: 14.5px; font-weight: 900;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    line-height: 1.1;
+    margin-bottom: 3px;
+  }
+  .card.locked .card-title { color: var(--white60); }
+  .card-sub {
+    font-size: 11.5px;
+    color: var(--white60);
+    letter-spacing: .01em;
+  }
+
+  .card-arrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 18px;
+    color: rgba(255,92,0,0.5);
+    line-height: 1;
+  }
+  .card-lock {
+    font-size: 14px;
+    color: var(--white30);
+  }
+  .card-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--orange);
+    background: rgba(255,92,0,0.12);
+    border: 1px solid rgba(255,92,0,0.3);
+    border-radius: 20px;
+    padding: 2px 7px;
+    white-space: nowrap;
+  }
+  .card-badge.soon {
+    color: var(--white30);
+    background: rgba(245,240,232,0.04);
+    border-color: rgba(245,240,232,0.1);
+  }
+
+  /* ── CTA ── */
+  .cta-block {
+    max-width: 480px;
+    margin: 32px auto 0;
+    padding: 0 20px;
+  }
+  .cta-btn {
+    display: block;
+    width: 100%;
+    background: var(--orange);
+    color: var(--black);
+    font-family: 'Arial Black', Arial, sans-serif;
+    font-size: 13px; font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    text-align: center;
+    padding: 16px 24px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: opacity .2s;
+  }
+  .cta-btn:hover { opacity: .88; }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 40px 24px 0;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--white30);
+    letter-spacing: .1em;
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="avatar-wrap">
+    <div class="avatar">TH</div>
+    <div class="avatar-dot"></div>
+  </div>
+  <div class="handle">@tony_hybrid_</div>
+  <div class="name">Tony Hyrox</div>
+  <div class="bio">
+    <strong>Athlète Hyrox · 40+</strong><br>
+    Performer après 40 ans, c'est une méthode.<br>
+    8 stations. 8 guides. Tout ce qu'il faut savoir.
+  </div>
+  <div class="stats-row">
+    <div class="stat">
+      <div class="stat-n">8</div>
+      <div class="stat-l">Stations</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">5</div>
+      <div class="stat-l">Publiés</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">40+</div>
+      <div class="stat-l">Focus</div>
+    </div>
+  </div>
+  <div class="divider"></div>
+</div>
+
+<!-- SÉRIE STATIONS -->
+<div class="section">
+  <div class="section-label">Série Stations Hyrox</div>
+
+  <a class="card" href="https://www.instagram.com/p/DfRhDzOiJ6b/" target="_blank" rel="noopener">
+    <div class="card-num">01</div>
+    <div class="card-body">
+      <div class="card-title">Ski Erg</div>
+      <div class="card-sub">Lats, épaules, core — dès le départ</div>
+    </div>
+    <div class="card-badge">Publié</div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <a class="card" href="https://www.instagram.com/p/DfWqmEkiKcq/" target="_blank" rel="noopener">
+    <div class="card-num">02</div>
+    <div class="card-body">
+      <div class="card-title">Sled Push</div>
+      <div class="card-sub">La station qui teste vraiment tes jambes</div>
+    </div>
+    <div class="card-badge">Publié</div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <a class="card" href="https://www.instagram.com/p/DfjisjpDfin/" target="_blank" rel="noopener">
+    <div class="card-num">03</div>
+    <div class="card-body">
+      <div class="card-title">Sled Pull</div>
+      <div class="card-sub">Dos non préparés → ça lâche ici</div>
+    </div>
+    <div class="card-badge">Publié</div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <a class="card" href="https://www.instagram.com/p/DfosxhNiCIo/" target="_blank" rel="noopener">
+    <div class="card-num">04</div>
+    <div class="card-body">
+      <div class="card-title">Burpee Broad Jump</div>
+      <div class="card-sub">La station la plus redoutée — et la plus préparable</div>
+    </div>
+    <div class="card-badge">Publié</div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <a class="card" href="https://www.instagram.com/p/Df1kq0uiDnZ/" target="_blank" rel="noopener">
+    <div class="card-num">05</div>
+    <div class="card-body">
+      <div class="card-title">Rowing</div>
+      <div class="card-sub">La seule fenêtre de récup en pleine course</div>
+    </div>
+    <div class="card-badge">Publié</div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <div class="card locked">
+    <div class="card-num">06</div>
+    <div class="card-body">
+      <div class="card-title">Farmers Carry</div>
+      <div class="card-sub">19 nov. — 24 kg, 200 m, grip au maximum</div>
+    </div>
+    <div class="card-badge soon">19 NOV</div>
+    <div class="card-lock">🔒</div>
+  </div>
+
+  <div class="card locked">
+    <div class="card-num">07</div>
+    <div class="card-body">
+      <div class="card-title">Sandbag Lunges</div>
+      <div class="card-sub">24 nov. — 100 m avec 20 kg sur les épaules</div>
+    </div>
+    <div class="card-badge soon">24 NOV</div>
+    <div class="card-lock">🔒</div>
+  </div>
+
+  <div class="card locked">
+    <div class="card-num">08</div>
+    <div class="card-body">
+      <div class="card-title">Wall Balls</div>
+      <div class="card-sub">26 nov. — La station finale. Tout se joue ici.</div>
+    </div>
+    <div class="card-badge soon">26 NOV</div>
+    <div class="card-lock">🔒</div>
+  </div>
+
+  <div class="card locked">
+    <div class="card-num">★</div>
+    <div class="card-body">
+      <div class="card-title">Run Hyrox</div>
+      <div class="card-sub">1 déc. — 45% du chrono. La stratégie kilomètre par km.</div>
+    </div>
+    <div class="card-badge soon">1 DÉC</div>
+    <div class="card-lock">🔒</div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-block">
+  <a class="cta-btn" href="https://www.instagram.com/tony_hybrid_/" target="_blank" rel="noopener">
+    Suivre @tony_hybrid_ sur Instagram →
+  </a>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  METRO · BOULOT · HYROX &nbsp;·&nbsp; @tony_hybrid_
+</div>
+
+</body>
+</html>
